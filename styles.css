@@ -56,11 +56,17 @@ footer{
 }
 
 #question-list-container{
-    flex: 1;
+    height: 25%;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
+}
+
+#prompt-container{
+    height: 40%;
+    width: 75%;
+    padding: 5px;
 }
 
 #question-list{
@@ -312,6 +318,16 @@ footer{
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.prompt{
+    height: 45%;
+    margin: 3px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    border: solid black thin;
+    gap: 10px;
 }
 
 .clicked{

@@ -18,6 +18,8 @@ const basicErrVisualization = d3.select("#basic-error-visualization")
 const typeErrVisualization = d3.select("#type-error-visualization")
 const channelsUsedVisualization = d3.select("#channels-used-visualization")
 const summaryLegend = d3.select("#summary-legend")
+const prompt1 = d3.select("#prompt-1")
+const prompt2 = d3.select("#prompt-2")
 
 summaryCreated = false
 
@@ -61,10 +63,22 @@ function changeImage(question,line){
 }
 
 function createIndividualVisualization(){
+
+
+
     locVisualization.html("")
     questionIndex = document.getElementById("question-list").value
     questionData = data.filter(d=> d.QuestionIndex == questionIndex)
     var elementHeight = questionData.length*50
+
+    var prompts = Array.from(new Set(questionData.map(d=>d.CurrentPrompt)));
+    
+    prompt1.html(prompts[0])
+    if(prompts[1] !== undefined){
+        prompt2.html(prompts[1])
+    } else {
+        prompt2.html("")
+    }
     
     var locWidth = document.getElementById('LOC-visualization').offsetWidth;
 
@@ -99,6 +113,8 @@ function createIndividualVisualization(){
         .attr('dx',55)
         .attr('dy',30)
         .text(d => d.Code)
+        .attr("font-weight",800)
+        .attr("font-family","arial")
         .attr("background-color",d=>colorForCodeTypes(d.CodeType))
   
     elemEnter.insert("rect","text")
