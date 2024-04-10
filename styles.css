@@ -61,6 +61,12 @@ footer{
     align-items: center;
     justify-content: center;
     text-align: center;
+    flex-direction: row;
+}
+
+#question-list-label{
+    display: flex;
+    width: 140px;
 }
 
 #prompt-container{
@@ -251,7 +257,7 @@ footer{
 }
 
 #summary-panel-left{
-    width: 45%;
+    width: 49%;
     height: 95%;
 }
 
@@ -261,7 +267,7 @@ footer{
 }
 
 #summary-panel-right{
-    width: 45%;
+    width: 49%;
     height: 95%;
 }
 
