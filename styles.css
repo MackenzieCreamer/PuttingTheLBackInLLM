@@ -71,7 +71,7 @@ footer{
 
 #prompt-container{
     height: 40%;
-    width: 75%;
+    width: 90%;
     padding: 5px;
 }
 
@@ -329,6 +329,7 @@ footer{
 .prompt{
     height: 45%;
     margin: 3px;
+    padding: 1px 5px;
     display: flex;
     justify-content: flex-start;
     align-items: center;

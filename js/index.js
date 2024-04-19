@@ -18,7 +18,6 @@ const basicErrVisualization = d3.select("#basic-error-visualization")
 const typeErrVisualization = d3.select("#type-error-visualization")
 const channelsUsedVisualization = d3.select("#channels-used-visualization")
 const summaryLegend = d3.select("#summary-legend")
-const prompt1 = d3.select("#prompt-1")
 const prompt2 = d3.select("#prompt-2")
 
 summaryCreated = false
@@ -73,11 +72,10 @@ function createIndividualVisualization(){
 
     var prompts = Array.from(new Set(questionData.map(d=>d.CurrentPrompt)));
     
-    prompt1.html(prompts[0])
     if(prompts[1] !== undefined){
         prompt2.html(prompts[1])
     } else {
-        prompt2.html("")
+        prompt2.html("----------------------------------")
     }
     
     var locWidth = document.getElementById('LOC-visualization').offsetWidth;
@@ -184,7 +182,7 @@ function createSummaryVisualization(){
     var typeErrWidth = document.getElementById('type-error-visualization').offsetWidth;
     var typeErrHeight = document.getElementById('type-error-visualization').offsetHeight;
     marginChartsMiddle = ({top: 10, bottom: 45, left: 125, right: 10})
-    marginCharts = ({top: 10, bottom: 45, left: 125, right: 10})
+    marginCharts = ({top: 10, bottom: 80, left: 125, right: 10})
 
     yBasicErrors = d3.scaleLinear()
         .domain([0, maxAllErrorsCount]).nice()
@@ -225,8 +223,8 @@ function createSummaryVisualization(){
         .call(yAxisErrors.ticks(maxAllErrorsCount + 1).tickFormat(d3.format(".0f")))
         .append('text')
             .attr('x', -50)
-            .attr('y', basicErrHeight / 2)
-            .attr('dominant-baseline', 'middle')
+            .attr('y', (basicErrHeight-marginChartsMiddle.bottom) / 2)
+            .attr('dominant-baseline', 'hanging')
             .attr('text-align', 'end')
             .attr('fill', 'black')
             .text('Error Count');
@@ -275,8 +273,8 @@ function createSummaryVisualization(){
         .call(yAxisChannel.ticks(maxChannelCount + 1).tickFormat(d3.format(".0f")))
         .append('text')
         .attr('x', -50)
-        .attr('y', channelsHeight / 2)
-        .attr('dominant-baseline', 'middle')
+        .attr('y', (channelsHeight-marginChartsMiddle.bottom) / 2)
+        .attr('dominant-baseline', 'hanging')
         .attr('text-align', 'end')
         .attr('fill', 'black')
         .text('Channel Count');
@@ -295,7 +293,8 @@ function createSummaryVisualization(){
         .domain([0, maxErrorCount]).nice()
         .range([typeErrHeight - marginCharts.bottom, marginCharts.top])
 
-    xAxisCharts = d3.axisBottom(groupX)
+    xAxisAllCharts = d3.axisBottom(groupX).tickSize(0);
+    xAxisCharts = d3.axisBottom(barX).tickFormat("");
     yAxisCharts = d3.axisLeft(yCharts).ticks(2)
 
     typesSvg = typeErrVisualization.append('svg')
@@ -316,24 +315,33 @@ function createSummaryVisualization(){
             .attr('height', ([error, count]) => yCharts(0) - yCharts(count))
             .attr('fill', ([error, count]) => errorColors(error));
 
-    typesSvg.append('g')
+    groups.append('g')
+        // .attr('transform', `translate(${marginCharts.left})`)
+        .call(yAxisCharts)
+    
+    groups.append('g')
         .attr('transform', `translate(0,${typeErrHeight - marginCharts.bottom})`)
         .call(xAxisCharts)
+        
+
+
+    typesSvg.append('g')
+        .attr('transform', `translate(0,${typeErrHeight - 3*marginCharts.bottom/4})`)
+        .call(xAxisAllCharts)
+        .call(g => g.select(".domain").remove())
     .append('text')
         .attr('x', typeErrWidth / 2)
         .attr('y', 30)
         .attr('dominant-baseline', 'hanging')
         .attr('text-align', 'middle')
         .attr('fill', 'black')
-        .text('Chart Type');
+        .text('Chart Type')
+        
   
     typesSvg.append('g')
-        .attr('transform', `translate(${marginCharts.left})`)
-        .call(yAxisCharts)
-    .append('text')
-        .attr('x', -50)
-        .attr('y', typeErrHeight / 2)
-        .attr('dominant-baseline', 'middle')
+        .append('text')
+        .attr('y', (typeErrHeight-marginCharts.bottom) / 2)
+        .attr('dominant-baseline', 'hanging')
         .attr('text-align', 'end')
         .attr('fill', 'black')
         .text('Error Count');
