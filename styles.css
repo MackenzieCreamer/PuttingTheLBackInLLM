@@ -3,7 +3,7 @@ header{
     margin: 0;
     padding: 0;
     border: black 2px solid;
-    background-color: lightblue;
+    background-color: rgba(173, 216, 230, 0.467);
     display: flex;
     gap: 10px;
 }
@@ -18,7 +18,7 @@ footer{
     height: 50px;
     margin: 0;
     border: black 2px solid;
-    background-color: lightblue;
+    background-color: rgba(173, 216, 230, 0.467);
 }
 
 #visualization-container{
@@ -304,7 +304,7 @@ footer{
 .container-header{
     border-radius: 5px 5px 0 0;
     border: 1px black solid;
-    background-color: lightblue;
+    background-color: rgba(173, 216, 230, 0.5);
     display: flex;
     text-align: center;
     align-items: center;

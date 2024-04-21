@@ -24,7 +24,7 @@ summaryCreated = false
 
 legendWidth = 675
 
-colors = ["#A29FAF", "#D0899B", "#53AAB9", "#DE6F50", "#7C8FA6", "#536BC4", "#F0C05B", "#9F79BD"]
+colors = ["#B3EDFF", "#5AC8DE", "#A2DBA0", "#FDAE6B", "#D9937C", "#7AA2FF", "#BD80FF", "#F79AD8"]
 
 function toggleView(button){
     if(button==="LOC" && !d3.select("#LOC-button").classed("clicked")){
@@ -45,7 +45,7 @@ function toggleView(button){
 }
 
 function changeImage(question,line){
-    imageURL = "images/q"+question+"l"+line+".png"
+    imageURL = "ImageOutputs/q"+question+"l"+line+".png"
     var http = new XMLHttpRequest();
 
     http.open('HEAD', imageURL, false);
@@ -53,7 +53,7 @@ function changeImage(question,line){
     if(http.status==404){
         d3.select("#image").classed("hidden",true)
         d3.select("#no-image").classed("hidden",false)
-        document.getElementById("no-image").innerHTML = "Visualization not available for question " + question + ", line " + line + ". Please select another line of code."
+        document.getElementById("no-image").innerHTML = "No visualization for question " + question + ", line " + line + ". Please select another line of code (Data Transformation visualizations are a WIP)."
     } else {
         d3.select("#no-image").classed("hidden",true)
         d3.select("#image").classed("hidden",false)
@@ -81,7 +81,7 @@ function createIndividualVisualization(){
     var locWidth = document.getElementById('LOC-visualization').offsetWidth;
 
     var locSVG = locVisualization.append('svg')
-          .attr('height', elementHeight)
+          .attr('height', elementHeight+10)
           .attr('width', locWidth);
     // Need line of code, discrepancy, and type
   
@@ -94,7 +94,7 @@ function createIndividualVisualization(){
     // that are present in the requested visualization
     var elemEnter = elem.enter()
         .append('g')
-        .attr("transform",function(d,i){return "translate(10," + (((elementHeight)/(questionData.length+1))*i) + ")"})
+        .attr("transform",function(d,i){return "translate(10," + (((elementHeight)/(questionData.length))*i+5) + ")"})
         .attr("cursor","pointer")
         .attr("id",(d,i)=>"q"+d.QuestionIndex+"l"+d.CodeIndex)
         .on("click", (a,b)=>changeImage(b.QuestionIndex,b.CodeIndex))
@@ -117,11 +117,12 @@ function createIndividualVisualization(){
   
     elemEnter.insert("rect","text")
         .attr("x", 50)
-        .attr("y", 1)
+        .attr("y",-2)
         .attr("width", locWidth-74)
         .attr("height", elementHeight/questionData.length)
         .style("fill", d=> colorForCodeTypes(d.CodeType))
         .style("outline","thin black solid")
+        .attr("opacity",.5)
 
     var breakdownWidth = document.getElementById('breakdown-visualization').offsetWidth;
     var breakdownHeight = document.getElementById('breakdown-visualization').offsetHeight;
@@ -144,6 +145,7 @@ function createIndividualVisualization(){
         .attr("height", (breakdownHeight)/(questionData.length))
         .style("fill", d => colorForCodeTypes(d.CodeType))
         .attr("cursor","pointer")
+        .attr("opacity",.5)
 }
 
 function createSummaryVisualization(){
@@ -348,7 +350,8 @@ function createSummaryVisualization(){
 }
 
 function initialize(){
-    codeTypes = Array.from(new Set(data.map(d=>d.CodeType)))
+    codeTypes = ["Import","Prepatory","Comment","Exploration","Data Transformation","Formatting","Annotation","Plotting"]
+    console.log(codeTypes)
     discrepancies = new Set(data.map(d=>d.Discrepancies))
     for(const row of data)
         if(questions[row.QuestionIndex]==undefined)
@@ -409,6 +412,7 @@ function initialize(){
         .attr("y",5)
         .attr("stroke","black")
         .attr("fill",d=>colorForCodeTypes(d))
+        .attr("opacity",.5)
 
     bottomLegendElemEnter.append('text')
         .attr('dx',30)
