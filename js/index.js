@@ -145,7 +145,6 @@ function createIndividualVisualization(){
         .attr("height", (breakdownHeight)/(questionData.length))
         .style("fill", d => colorForCodeTypes(d.CodeType))
         .attr("cursor","pointer")
-        .attr("opacity",.5)
 }
 
 function createSummaryVisualization(){
@@ -412,7 +411,6 @@ function initialize(){
         .attr("y",5)
         .attr("stroke","black")
         .attr("fill",d=>colorForCodeTypes(d))
-        .attr("opacity",.5)
 
     bottomLegendElemEnter.append('text')
         .attr('dx',30)
@@ -439,7 +437,7 @@ function initialize(){
     )
     errorColors = d3.scaleOrdinal()
         .domain(errorTypes)
-        .range(['#7fc97f', '#beaed4', '#fdc086', '#ffff99', '#386cb0','#f0027f','#bf5b17','#666666'])
+        .range(["#8dd3c7", "#ffffb3", "#bebada", "#fb8072", "#80b1d3", "#fdd462", "#b3de69", "#fccde5"])
 
     maxErrorCount = d3.max(
         errorsByChart,
