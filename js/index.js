@@ -256,7 +256,7 @@ function createSummaryVisualization(){
             .attr('width', xChannel.bandwidth())
             .attr('y', ([error, count]) => yChannel(count))
             .attr('height', ([error, count]) => yChannel(0) - yChannel(count))
-            .attr('fill', "steelblue");
+            .attr('fill', "#82d3ff");
 
     channelsSvg.append('g')
         .attr('transform', `translate(0,${channelsHeight - marginChartsMiddle.bottom})`)
