@@ -437,7 +437,7 @@ function initialize(){
     )
     errorColors = d3.scaleOrdinal()
         .domain(errorTypes)
-        .range(["#8dd3c7", "#ffffb3", "#bebada", "#fb8072", "#80b1d3", "#fdd462", "#b3de69", "#fccde5"])
+        .range(["#8dd3c7", "#EDEDB6", "#bebada", "#fb8072", "#80b1d3", "#fdd462", "#AACC70", "#fccde5"])
 
     maxErrorCount = d3.max(
         errorsByChart,
